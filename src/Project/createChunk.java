@@ -17,7 +17,7 @@ import javax.xml.validation.Validator;
 import org.h2.value.Value;
 
 
-public class displayChunk 
+public class createChunk 
 {
 	public static final int hconst = 69069; // good hash multiplier for MOD 2^32
 	public int mult; // this will hold the p^n value
@@ -27,7 +27,7 @@ public class displayChunk
 	InputStream is;
 	public static Map<Integer, ArrayList<String>> map = new HashMap<Integer, ArrayList<String>>();
 	
-	public void displayChunks(String filelocation, ArrayList<String> new_narr, String file_format) throws IOException 
+	public void createChunks(String filelocation, ArrayList<String> new_narr) throws IOException 
 	{
 		mult = 1;
 		buffptr = 0;
@@ -67,7 +67,7 @@ public class displayChunk
 						insertDb.insertInTable("HASHMAP", Integer.toString(hash), arrr);
 //						map.put(hash, hashIn256);
 //						System.out.println(counter+"=> no hash\tno 256\t" +"  =>  "+hash + "\tsha256\t"+hashIn256);
-						file_opr.createFile(hash,string_w,hashIn256,file_format);
+						file_opr.createFile(hash,string_w,hashIn256);
 					}
 					else if(!map.get(hash).contains(hashIn256))
 					{
@@ -76,7 +76,7 @@ public class displayChunk
 						ArrayList<String> arrr = map.get(hash);
 						insertDb.updateTable("HASHMAP", Integer.toString(hash), arrr);
 //						System.out.println(counter+"=> ya hash\tno 256\t" +"  =>  "+hash + "\tsha256\t"+hashIn256);
-						file_opr.createFile(hash,string_w,hashIn256,file_format);
+						file_opr.createFile(hash,string_w,hashIn256);
 					}
 					else
 					{
@@ -92,7 +92,7 @@ public class displayChunk
 		{
 			e.printStackTrace();
 		}
-		file_opr.joinFile(new_narr,cnt,file_format);
+		file_opr.joinFile(new_narr,cnt);
 		cnt++;
 	}
 

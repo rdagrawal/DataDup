@@ -1,61 +1,52 @@
 package Project;
 
-import java.sql.Connection; 
-import java.sql.DriverManager; 
-import java.sql.SQLException; 
+
 import java.sql.Statement;
 import java.util.ArrayList;  
-
+import Project.Connect;
 public class insertDb 
 {
-	static final String JDBC_DRIVER = "org.h2.Driver"; 
-	static final String DB_URL = "jdbc:h2:~/test";
-	   //  Database credentials 
-	static final String USER = "sa";
-	static final String PASS = "";  
-	
-	
-	
-	public static void sqlOperate(String sql_query) {
-		Connection conn = null;
+	public static void sqlOperate(String sql_query) 
+	{
+		Connect c=new Connect();
 		Statement stmt = null;
-		try {
-			Class.forName(JDBC_DRIVER); 
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			stmt = conn.createStatement();
+		try
+		{
+			stmt = c.getConnect().createStatement();
 			stmt.execute(sql_query);
 			stmt.close();
-			conn.close();	
-		}catch(SQLException se){ //Handle errors for JDBC 
-			se.printStackTrace(); 
-		}catch(Exception e) {//Handle errors for Class.forName 
-			e.printStackTrace(); 
+			c.getConnect().close();	
 		}
-		finally { //finally block used to close resources 
-			try{
-				if(stmt!=null) stmt.close(); 
-			} catch(SQLException se2) {
-				se2.printStackTrace();
-			} // nothing we can do 
-			try {
-				if(conn!=null) conn.close(); 
-			} catch(SQLException se){ 
-				se.printStackTrace(); 
-			} //end finally try 
-		} //end try 
+		catch(Exception e)
+		{ //Handle errors for JDBC 
+			e.printStackTrace();
+		} 
 	}
 	
 	
 	public static void insertInTable(String tableName, String keyData, ArrayList<String> arrr) throws Exception
-	{
+	{			//Insert Data in two cases:
+				// 1. In hashMap table when we get new Roll Hash Value
+				// 2. In userFiles table when user uploads a new file
 		String sql = "INSERT INTO "+ tableName + " VALUES ('" + keyData + "' , '" + arrr + "');" ;
 		sqlOperate(sql);	
 	}
-
 	public static void updateTable(String tableName, String keyData, ArrayList<String> arrr)
-   {
+	{			//when get the same roll hash value but different SHA256
 		String sql = "UPDATE "+ tableName + " SET SHA256 = '" + arrr + "'where ROLLHASH ='"+keyData+"';" ;
 		sqlOperate(sql);
-		System.out.println("***********************************---------------------------------------**********************************************------------------------------------------------******************************************************-------------------------------------------");
-   }
+		System.out.println("---------------------------------------Row Updated---------------------------------------");
+	}
+	public static void deleteTable(String tableName, String fileName)
+	{			//when user wants to delete file
+		String sql = " ;" ;
+		sqlOperate(sql);
+		System.out.println("---------------------------------------Row/File Deleted---------------------------------------");
+	}
+	public static void createTable(String userName)
+	{
+		String sql = "CREATE TABLE "+ userName + " ( fileName VARCHAR(30) PRIMARY KEY, fileArray256 ARRAY);" ;
+		sqlOperate(sql);
+		System.out.println("---------------------------------------Table Created---------------------------------------");
+	}
 }
