@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class userWork extends mainFile
+public class userWork
 {
 	static ArrayList<String> narr = new ArrayList<String>();
 	public static Map<Integer, List<String>> map = new HashMap<Integer, List<String>>();
 	
-	@SuppressWarnings("resource")
-	public static void run() throws Exception
+	public static void run(String user) throws Exception
 	{
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Welcome "+ user + "\nPlease Select a option\n\t1. Upload\n\t2. Download\n\t3. Exit");
@@ -21,7 +20,7 @@ public class userWork extends mainFile
 		case 1:
 			uploadFile.upload();
 		case 2:
-			downloadFile.download();
+//			downloadFile.download();
 		case 3:
 			System.out.println("Thank You:");
 			break;
