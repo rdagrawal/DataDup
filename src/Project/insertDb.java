@@ -1,15 +1,25 @@
+/*
+ * 
+ * 
+ * InComplete Not Finalize
+ * 
+ * 
+ * 
+ * 
+ */
+
+
+
 package Project;
 
 
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import Project.Connect;
-public class insertDb 
+public class insertDb extends userWork
 {
 	static String sql_query;
-	
 	
 	public static void sqlOperate() 
 	{
@@ -19,7 +29,6 @@ public class insertDb
 		{
 			stmt = c.getConnect().createStatement();
 			stmt.execute(sql_query);
-			System.out.println("Operation Success");
 			stmt.close();
 			c.getConnect().close();	
 		}
@@ -29,42 +38,52 @@ public class insertDb
 		} 
 	}
 	
-	
-	public static void insertInTable(String tableName, String keyData, ArrayList<String> arrr) throws Exception
+	public static void createLogin(String userName, String password, String name, String email, long contact) throws Exception
+	{				//register new user in login table
+		sql_query = "INSERT INTO LOGIN VALUES('"+ userName + "' , '" + password +"' , '"+ name + "' , '" + email +"' , '"+contact + "');";
+		sqlOperate();
+		System.out.println("---------------------------------------Login Created---------------------------------------");
+		insertDb.createUserTable(userName);
+		userWork.run();
+	}	
+	public static void createUserTable(String userName)
+	{				//create table for new user
+		sql_query = "CREATE TABLE "+ userName + " ( fileName VARCHAR(30) not null PRIMARY KEY, fileArray256 VARCHAR not null);" ;
+		sqlOperate();
+		System.out.println("---------------------------------------Table Created---------------------------------------");
+	}
+	public static void insertInTableString(String tableName, int keyData, String arrr) throws Exception
 	{			//Insert Data in two cases:
 				// 1. In hashMap table when we get new Roll Hash Value
 				// 2. In userFiles table when user uploads a new file
 		sql_query = "INSERT INTO "+ tableName + " VALUES ('" + keyData + "' , '" + arrr + "');" ;
-		sqlOperate();	
+		sqlOperate();
+		System.out.println("---------------------------------------Data Inserted---------------------------------------");
 	}
-	public static void updateTable(String tableName, String keyData, List<String> arrr)
+	public static void updateTableString(String tableName, int keyData, String arrr)
 	{			//when get the same roll hash value but different SHA256
-		sql_query = "UPDATE "+ tableName + " SET SHA256 = '" + arrr + "'where ROLLHASH ='"+keyData+"';" ;
+		sql_query = "UPDATE "+ tableName + " SET HASH256 = '" + arrr + "'where HASH ='"+keyData+"';" ;
 		sqlOperate();
 		System.out.println("---------------------------------------Row Updated---------------------------------------");
 	}
-	public static void deleteTable(String tableName, String fileName)
-	{			//when user wants to delete file
-		sql_query= " ;" ;
+	public static void insertInUserString(String tableName, String keyData, String arrr) throws Exception
+	{			//Insert Data in two cases:
+				// 1. In hashMap table when we get new Roll Hash Value
+				// 2. In userFiles table when user uploads a new file
+		sql_query = "INSERT INTO "+ tableName + " VALUES ('" + keyData + "' , '" + arrr + "');" ;
 		sqlOperate();
-		System.out.println("---------------------------------------Row/File Deleted---------------------------------------");
+		System.out.println("---------------------------------------Data Inserted---------------------------------------");
 	}
-	public static void createTable(String userName)
-	{				//create table for new user
-		sql_query = "CREATE TABLE "+ userName + " ( fileName VARCHAR(30) PRIMARY KEY, fileArray256 ARRAY);" ;
+	public static void deleteFile(String filename) {
+		sql_query = "DELETE FROM "+ user + " where fileName = '" + filename + "'";
 		sqlOperate();
-		System.out.println("---------------------------------------Table Created---------------------------------------");
+		System.out.println("---------------------------------------File Deleted---------------------------------------");
 	}
-	public static void createLogin(String userName, String password)
-	{				//register new user in login table
-		sql_query = "INSERT INTO LOGIN VALUES('"+ userName + "' , '" + password +"');";
+	public static void deleteUser() {
+		sql_query = "DELETE FROM LOGIN where userName = " + user;
 		sqlOperate();
-		System.out.println("---------------------------------------Login Created---------------------------------------");
-	}
-	public static void createdETAILS(String userName, String name, String email, int contact)
-	{				//register new user in user details
-		sql_query = "INSERT INTO USERDETAILS VALUES('"+ userName + "' , '" + name +"', '" + email +"', '" + contact +"');";
-		sqlOperate();
-		System.out.println("---------------------------------------Login Created---------------------------------------");
+		System.out.println("---------------------------------------User Deleted---------------------------------------");
+		sql_query = "DROP TABLE " + user;
+		sqlOperate();	
 	}
 }

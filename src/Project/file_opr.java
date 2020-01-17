@@ -1,11 +1,23 @@
+/*
+ * 
+ * 
+ * Don't Touch It
+ * 
+ * 
+ * 
+ * 
+ */
+
+
+
 package Project;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
-public class file_opr
+
+public class file_opr extends downloadFile
 {
 	public static void createFile(int hash_val,String word, String hash256val) throws IOException
 	{
@@ -14,15 +26,16 @@ public class file_opr
 		fw.write(word);
 		fw.close();
 	}
-	public static void joinFile(ArrayList<String> new_narr, int cnt) throws IOException  
+	public static void joinFile() throws IOException  
 	{
 		
-		String filenamej = "joined/joinFile"+ cnt +".txt";
+		String filenamej = "joined/"+ fileName;
 		FileWriter fw_join = new FileWriter(filenamej);
 		FileReader fr;
-		for(int i = 0 ; i < new_narr.size() ; i++)
+		for(int i = 0 ; i < array_list.size() ; i++)
 		{
-			String fileNameJoin = "chunks/"+new_narr.get(i);
+			array_list.get(i);
+			String fileNameJoin = "chunks/"+array_list.get(i);
 			fr = new FileReader(fileNameJoin);
             int c = fr.read();
             while(c!=-1) {
@@ -31,7 +44,6 @@ public class file_opr
             }
             fr.close(); 
 		}
-		cnt++;
 		fw_join.close();
 		System.out.println("**************************File Joined*****************************");
 	}

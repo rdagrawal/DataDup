@@ -1,3 +1,14 @@
+/*
+ * 
+ * 
+ * Don't Touch It
+ * 
+ * 
+ * 
+ * 
+ */
+
+
 package Project;
 
 import java.sql.DriverManager;
@@ -16,7 +27,6 @@ public class Connect
 		Connection conn = null;	
 		Class.forName(JDBC_DRIVER); 
 		conn = (Connection) DriverManager.getConnection(DB_URL,USER,PASS);
-		System.out.println("Connection Success");
 		return	conn;
 	}
 }

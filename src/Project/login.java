@@ -1,10 +1,16 @@
+/*
+ * 
+ * 
+ * Don't Touch it
+ * 
+ * 
+ * 
+ */
+
 package Project;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
-
-
-
 
 public class login 
 {		
@@ -17,13 +23,10 @@ public class login
 		try
 		{
 			stmt = c.getConnect().createStatement();
-			
 			ResultSet rs = stmt.executeQuery(query);
             if (rs.next()) {
-            	System.out.println("success");
             	return true;
             } else {
-            	System.out.println("invalid");
             	return false;
             }
 		}
