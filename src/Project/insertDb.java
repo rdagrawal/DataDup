@@ -38,52 +38,89 @@ public class insertDb extends userWork
 		} 
 	}
 	
-	public static void createLogin(String userName, String password, String name, String email, long contact) throws Exception
+	
+	
+	
+	
+	/*
+	 ------------------------------------Login Table------------------------------------
+	 */
+	
+//	1. Insert into Login Table
+	public static void InsertInLogin(String userName, String password, String name, String email, long contact) throws Exception
 	{				//register new user in login table
 		sql_query = "INSERT INTO LOGIN VALUES('"+ userName + "' , '" + password +"' , '"+ name + "' , '" + email +"' , '"+contact + "');";
 		sqlOperate();
-		System.out.println("---------------------------------------Login Created---------------------------------------");
-		insertDb.createUserTable(userName);
+		System.out.println("---------------------------------------Login Details Inserted---------------------------------------");
 		userWork.run();
 	}	
-	public static void createUserTable(String userName)
-	{				//create table for new user
-		sql_query = "CREATE TABLE "+ userName + " ( fileName VARCHAR(30) not null PRIMARY KEY, fileArray256 VARCHAR not null);" ;
+	
+	
+	
+	
+	/*
+	 ------------------------------------Hash Table------------------------------------
+	 */
+//	3. Insert into Hash Table
+	public static void insertInHashTable( int keyData, String arrr) throws Exception{		// Insert In hashMap table when we get new Roll Hash Value
+		sql_query = "INSERT INTO HASHIS VALUES ('" + keyData + "' , '" + arrr + "');" ;
 		sqlOperate();
-		System.out.println("---------------------------------------Table Created---------------------------------------");
+		System.out.println("---------------------------------------Data Inserted HashTable---------------------------------------");
 	}
-	public static void insertInTableString(String tableName, int keyData, String arrr) throws Exception
-	{			//Insert Data in two cases:
-				// 1. In hashMap table when we get new Roll Hash Value
-				// 2. In userFiles table when user uploads a new file
-		sql_query = "INSERT INTO "+ tableName + " VALUES ('" + keyData + "' , '" + arrr + "');" ;
+//	4. Update into  Hash Table
+	public static void updateInHashTable(int keyData, String arrr){			//when get the same roll hash value but different SHA256
+		sql_query = "UPDATE HASHIS SET HASH256 = '" + arrr + "'where HASH ='"+keyData+"';" ;
 		sqlOperate();
-		System.out.println("---------------------------------------Data Inserted---------------------------------------");
+		System.out.println("---------------------------------------Data Updated in HashTable---------------------------------------"); 
 	}
-	public static void updateTableString(String tableName, int keyData, String arrr)
-	{			//when get the same roll hash value but different SHA256
-		sql_query = "UPDATE "+ tableName + " SET HASH256 = '" + arrr + "'where HASH ='"+keyData+"';" ;
+//	5. Delete From Hash Table	
+
+	
+
+	
+	
+	/*
+	 ------------------------------------SHACount Table------------------------------------
+	 */
+//	6. Insert Into SHACOUNT Table
+	public static void insertInShaCount( String sha256, int refernceCount) throws Exception{	    //whenever Chunk Created
+		sql_query = "INSERT INTO SHACOUNT VALUES('" + sha256 + "'," + refernceCount + ");";
 		sqlOperate();
-		System.out.println("---------------------------------------Row Updated---------------------------------------");
+		System.out.println("---------------------------------------Data Inserted Into ShaRefrence---------------------------------------"); 
 	}
-	public static void insertInUserString(String tableName, String keyData, String arrr) throws Exception
-	{			//Insert Data in two cases:
-				// 1. In hashMap table when we get new Roll Hash Value
-				// 2. In userFiles table when user uploads a new file
-		sql_query = "INSERT INTO "+ tableName + " VALUES ('" + keyData + "' , '" + arrr + "');" ;
+	
+//	7. Update Into SHACOUNT Table	
+	public static void updateInShaCount( String sha256, int refernceCount) throws Exception
+	{		//chunk Found with same hash
+		sql_query = "UPDATE SHACOUNT SET count = '" + refernceCount + "'where SHA256 ='" + sha256 + "';" ;
 		sqlOperate();
-		System.out.println("---------------------------------------Data Inserted---------------------------------------");
+		System.out.println("---------------------------------------Data Updated in HashTable---------------------------------------"); 
+	
 	}
-	public static void deleteFile(String filename) {
-		sql_query = "DELETE FROM "+ user + " where fileName = '" + filename + "'";
+//	8. Delete Into SHACOUNT Table
+
+
+	
+	
+	
+	
+	
+	/*
+	 ------------------------------------FileDetails Table------------------------------------
+	 */
+//	9. Insert Into UserFile
+	public static void insertInFileDetails(String keyData, String arrr) throws Exception
+	{			// Insert In FilesDetails table when user uploads a new file
+		sql_query = "INSERT INTO FILEDETAILS VALUES ('" + user + "' , '" +keyData + "' , '" + arrr + "');" ;
 		sqlOperate();
-		System.out.println("---------------------------------------File Deleted---------------------------------------");
+		System.out.println("---------------------------------------Data Inserted in FileDetails---------------------------------------");
 	}
-	public static void deleteUser() {
-		sql_query = "DELETE FROM LOGIN where userName = " + user;
-		sqlOperate();
-		System.out.println("---------------------------------------User Deleted---------------------------------------");
-		sql_query = "DROP TABLE " + user;
-		sqlOperate();	
+//	10. Update In FileDetails
+	public static void UpdateInFileDetails( String keyData, String arrr) throws Exception
+	{
+		
 	}
+
+	
+
 }

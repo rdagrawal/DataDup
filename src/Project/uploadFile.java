@@ -37,4 +37,16 @@ public class uploadFile extends userWork {
 		}
 		System.out.println("Thank You: Files Uploaded");
 	}
+	
+	public static void update() throws IOException {
+		createChunk d = new createChunk();
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter File Name:\t");
+		fileName = sc.next();
+		fileLocation = "file/"+fileName;
+		d.createChunks();
+
+		System.out.println("Thank You: Files Updates");
+	}
 }

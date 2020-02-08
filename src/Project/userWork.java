@@ -27,7 +27,7 @@ public class userWork extends mainFile
 	public static void run() throws Exception
 	{
 		Scanner sc=new Scanner(System.in);
-		System.out.println("Welcome "+ user + "\nPlease Select a option\n\t1. Upload File\n\t2. Download File\n\t3. Delete File\n\t4. Delete User\n\t5. Exit");
+		System.out.println("Welcome "+ user + "\nPlease Select a option\n\t1. Upload File\n\t2. Download File\n\t3. Delete File\n\t4. Delete User\n\t5. updateFile\n\t6. Exit");
 		int ch=sc.nextInt();
 		switch(ch){
 		case 1:
@@ -43,6 +43,7 @@ public class userWork extends mainFile
 			deleteData.deleteUser();
 			break;
 		case 5:
+			uploadFile.update();
 			break;
 		default:
 			System.out.println("Invalid Input");

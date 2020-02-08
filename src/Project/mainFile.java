@@ -17,6 +17,8 @@ import java.util.Scanner;
 public class mainFile 
 {
 	public static Map<Integer, ArrayList<String>> map = new HashMap<Integer, ArrayList<String>>();
+	public static Map<String, Integer> map4count = new HashMap<String,Integer>();
+	
 	public static String user;
 	
 	@SuppressWarnings("resource")
@@ -24,8 +26,10 @@ public class mainFile
 	{
 		System.out.println("Welcome to deduplication :)\nExtracting Data from Database");
 		retriveDb.retrive_hashmap();
+		retriveDb.retrive_hashCount();
 		
 		map.keySet().forEach(key -> System.out.println(key + "\t------>\t" + map.get(key)));
+		map4count.keySet().forEach(key -> System.out.println(key + "\t------>\t" + map4count.get(key)));
 		
 		Scanner sc=new Scanner(System.in);
 		//1. Login check
@@ -56,10 +60,12 @@ public class mainFile
 				String email=sc.next();
 				System.out.println("Enter contact number : ");
 				long contact=sc.nextLong();
-				insertDb.createLogin(user,pass, name, email, contact);
+				insertDb.InsertInLogin(user, pass, name, email, contact);
 			default:
 				break;
 				}
 		}
+		map4count.keySet().forEach(key -> System.out.println(key + "\t------>\t" + map4count.get(key)));
 	}
+	
 }

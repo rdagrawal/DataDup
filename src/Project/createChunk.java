@@ -66,23 +66,40 @@ public class createChunk extends uploadFile
 							ArrayList<String> arrr = new ArrayList<String>(Arrays.asList(hashIn256));
 							map.put(hash, arrr);
 							String ars = String.join(",", arrr);							
-							insertDb.insertInTableString("HASHIS",hash, ars);
-							System.out.println(counter++ +"=> NO hash\tNO 256\t" +"  =>  "+hash + "\tsha256\t"+hashIn256);
+							insertDb.insertInHashTable(hash, ars);
+//							System.out.println(counter++ +"=> NO hash\tNO 256\t" +"  =>  "+hash + "\tsha256\t"+hashIn256);
 							file_opr.createFile(hash,string_w,hashIn256);
+							System.out.println(arrr);
 						}
 						else if(!map.get(hash).contains(hashIn256))
 						{
 							map.get(hash).add(hashIn256);
 							ArrayList<String> arrr = (ArrayList<String>) map.get(hash);
 							String ars = String.join(",", arrr);							
-							insertDb.updateTableString("HASHIS",hash, ars);
-							System.out.println(counter++ +"=> YES hash\tNO 256\t" +"  =>  "+hash + "\tsha256\t"+hashIn256);
+							insertDb.updateInHashTable(hash, ars);
+//							System.out.println(counter++ +"=> YES hash\tNO 256\t" +"  =>  "+hash + "\tsha256\t"+hashIn256);
 							file_opr.createFile(hash,string_w,hashIn256);
 						}
 						else
 						{
 							System.out.println(counter++ +"=> YES hash\tYES 256\t" +"  =>  "+hash + "\tsha256\t"+hashIn256);
 						}
+
+						
+						if(!map4count.containsKey(hashIn256))
+						{
+							map4count.put(hashIn256, 1);
+							insertDb.insertInShaCount(hashIn256, 1);
+						}else
+						{
+							int count = map4count.get(hashIn256);
+							map4count.replace(hashIn256, count, count+1);
+							insertDb.updateInShaCount(hashIn256, count+1);
+
+						}
+						
+						
+						
 						string_w = "";
 					}
 					// next window's hash  //
@@ -90,7 +107,9 @@ public class createChunk extends uploadFile
 					curr++;
 				}
 				String string_of_file_sha = String.join(",",array_of_file_sha);
-				insertDb.insertInUserString(user, fileName, string_of_file_sha);
+				insertDb.insertInFileDetails(fileName, string_of_file_sha);
+				array_of_file_sha.clear();
+			
 			}
 			catch (Exception e)
 			{
